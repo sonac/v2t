@@ -3,9 +3,9 @@ import subprocess
 import json 
 
 class Transcryptor:
-  def __init__(self) -> None:
+  def __init__(self, model_name: str) -> None:
     self.sample_rate=16000
-    self.model = Model("vosk-model-ru-0.22")
+    self.model = Model(model_name)
     self.rec = KaldiRecognizer(self.model, self.sample_rate)
     self.cur_res = ""
 
@@ -16,7 +16,6 @@ class Transcryptor:
     if 'partial' in js.keys():
       self.cur_res += js['partial']
     self.cur_res += '.\n'
-    
 
   def transcrypt(self, file_path) -> str:
     self.cur_res = ""
@@ -31,7 +30,6 @@ class Transcryptor:
         self.append(self.rec.Result())
       else:
         print(self.rec.PartialResult())
-    
     self.append(self.rec.FinalResult())
 
     self.cur_res = self.cur_res[:-2]

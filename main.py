@@ -20,8 +20,9 @@ class Bot:
     self.handlers = []
     load_dotenv()
     token = os.getenv('TELEGRAM_TOKEN')
+    model_name = os.getenv('MODEL_NAME')
     self.app = ApplicationBuilder().token(token).build()
-    self.transcryptor = Transcryptor()
+    self.transcryptor = Transcryptor(model_name)
 
   async def get_voice(self, update: Update, context) -> None:
     # get basic info about the voice note file and prepare it for downloading
